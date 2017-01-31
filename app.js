@@ -11,9 +11,12 @@ const http         = require('http'),
 
 let app = express();
 
+console.log(env.NODE_PORT, env.NODE_IP);
 app.set('port',env.NODE_PORT || 3000, env.NODE_IP || 'localhost');
+
 app.use('/',routes);
-app.use('/bot',chatbot);
+app.use('/chatbot',chatbot);
+
 app.use((err,req,res,next)=>{
   res.status(404);
   res.writeHead(404);
