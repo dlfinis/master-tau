@@ -1,6 +1,6 @@
 const express = require('express'),
-      contentTypes = require('./utils/content-types'),
-      sysInfo      = require('./utils/sys-info'),
+      contentTypes = require('../utils/content-types'),
+      sysInfo      = require('../utils/sys-info'),
       router = express.Router();
 
 
