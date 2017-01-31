@@ -11,8 +11,7 @@ const http         = require('http'),
 
 let app = express();
 
-console.log(env.NODE_PORT, env.NODE_IP);
-app.set('port',env.NODE_PORT || 3000, env.NODE_IP || 'localhost');
+app.set('port',env.OPENSHIFT_NODEJS_PORT || env.NODE_PORT || 3000, env.OPENSHIFT_NODEJS_IP || env.NODE_IP || 'localhost');
 
 app.use('/',routes);
 app.use('/chatbot',chatbot);
