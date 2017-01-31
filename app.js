@@ -1,28 +1,25 @@
-const http         = require('http'),
-      fs           = require('fs'),
-      path         = require('path'),
-      express      = require('express'),
-      bodyParser   = require('body-parser'),
-      request      = require('request'),
-      routes      = require('./src/routes'),
-      chatbot      = require('./src/chatbot'),
-      env          = process.env;
-
+const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request');
+const routes = require('./src/routes');
+const chatbot = require('./src/chatbot');
+const config = require('./utils/config');
+const winston = require('winston');
 
 let app = express();
 
-app.set('port',env.OPENSHIFT_NODEJS_PORT || env.NODE_PORT || 3000, env.OPENSHIFT_NODEJS_IP || env.NODE_IP || 'localhost');
+app.set('port', config.port, config.ip);
 
-app.use('/',routes);
-app.use('/chatbot',chatbot);
+app.use('/', routes);
+app.use('/chatbot', chatbot);
 
-app.use((err,req,res,next)=>{
+app.use((err, req, res, next) => {
   res.status(404);
   res.writeHead(404);
   res.end('Not found');
 });
 
 
-app.listen(app.get('port'),()=>{
-  console.log(`Application worker ${process.pid} started...`);
+app.listen(app.get('port'), () => {
+  winston.log(`Application worker ${process.pid} started...`);
 });

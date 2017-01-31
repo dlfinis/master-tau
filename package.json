@@ -1,13 +1,16 @@
 {
-  "name": "openshift-cartridge-nodejs-template",
+  "name": "master-tau",
   "version": "1.0.1",
-  "description": "Custom Node.js cartridge for OpenShift - sample application",
+  "description": "Node.js chabot application",
   "private": true,
   "main": "start.js",
   "scripts": {
-    "start": "node --use_strict start.js"
+    "start": "node --use_strict start.js",
+    "lint": "npm run lint:node && npm run lint:browser",
+    "lint:node": "eslint --config=./.eslintrc *.js scripts/*.js",
+    "lint:browser": "eslint --config=./src/.eslintrc src/**/**/*.js app.js start.js"
   },
-  "author": "Ionut-Cristian Florescu <ionut.florescu@gmail.com>",
+  "author": "DLFinis <dln.finis@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.16.0",
@@ -16,6 +19,8 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
-    "eslint": "^3.14.1"
+    "eslint": "^3.14.1",
+    "eslint-loader": "^1.6.1",
+    "winston": "^2.3.1"
   }
 }

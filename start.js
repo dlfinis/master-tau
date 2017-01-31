@@ -1,13 +1,15 @@
-const cluster = require('cluster'),
-      stopSignals = [
-        'SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
-        'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
-      ],
-      production = process.env.NODE_ENV == 'production';
+const winston = require('winston');
+const cluster = require('cluster');
+const config = require('./utils/config');
+const stopSignals = [
+  'SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
+  'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
+];
+const production = config.env === 'production';
 
 let stopping = false;
 
-cluster.on('disconnect', function(worker) {
+cluster.on('disconnect', function (worker) {
   if (production) {
     if (!stopping) {
       cluster.fork();
@@ -18,18 +20,18 @@ cluster.on('disconnect', function(worker) {
 });
 
 if (cluster.isMaster) {
-  const workerCount = process.env.NODE_CLUSTER_WORKERS || 4;
-  console.log(`Starting ${workerCount} workers...`);
-  for (let i = 0; i < workerCount; i++) {
+  const workerCount = config.workerCount;
+  winston.log(`Starting ${workerCount} workers...`);
+  for (let i = 0; i < workerCount; i = +1) {
     cluster.fork();
   }
   if (production) {
     stopSignals.forEach(function (signal) {
       process.on(signal, function () {
-        console.log(`Got ${signal}, stopping workers...`);
+        winston.log(`Got ${signal}, stopping workers...`);
         stopping = true;
         cluster.disconnect(function () {
-          console.log('All workers stopped, exiting.');
+          winston.log('All workers stopped, exiting.');
           process.exit(0);
         });
       });
