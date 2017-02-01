@@ -3,16 +3,17 @@ const express = require('express'),
       sysInfo      = require('../utils/sys-info'),
       router = express.Router();
 
+const logger = require('../utils/logger');
 
 router.use((req,res,next) =>{
-  console.log('Time: ', Date.now());
+  logger.debug('Time: ', Date.now());
   next();
 });
 
 router.get('/',(req,res)=>{
   res.setHeader('Cache-Control', 'no-cache, no-store');
-  res.setHeader('Content-Type', contentTypes['html']);
-  res.sendFile('./static/index.html');
+  res.setHeader('Content-Type', contentTypes.html);
+  res.sendFile('/index.html');
 });
 
 router.get('/health',(req,res)=>{

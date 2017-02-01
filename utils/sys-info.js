@@ -1,6 +1,6 @@
-const os = require('os'),
-      exec = require('child_process').execSync,
-      env = process.env;
+const os = require('os');
+const exec = require('child_process').execSync;
+const env = process.env;
 
 exports.gen = function () {
   return [{
