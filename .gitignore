@@ -1,5 +1,6 @@
 # Logs
 logs/**
+
 *.log
 npm-debug.log*
 
@@ -51,3 +52,5 @@ jspm_packages/
 
 # dotenv environment variables file
 .env
+
+!.gitkeep
