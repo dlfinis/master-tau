@@ -3,7 +3,7 @@ const cluster = require('cluster'),
         'SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
         'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
       ],
-      production = process.env.NODE_ENV == 'production';
+      production = process.env.NODE_ENV === 'production';
 
 let stopping = false;
 
@@ -18,9 +18,9 @@ cluster.on('disconnect', function(worker) {
 });
 
 if (cluster.isMaster) {
-  const workerCount = process.env.NODE_CLUSTER_WORKERS || 4;
+  const workerCount = process.env.NODE_CLUSTER_WORKERS || 1;
   console.log(`Starting ${workerCount} workers...`);
-  for (let i = 0; i < workerCount; i++) {
+  for (let i = 0; i < workerCount; i = i + 1) {
     cluster.fork();
   }
   if (production) {

@@ -12,8 +12,6 @@ let app = express();
 
 logger.debug('Overriding Express logger');
 
-app.set('port', config.port, config.ip);
-
 app.use(morgan('combined', { stream: logger.stream }));
 logger.debug(path.join(__dirname, 'static'));
 
@@ -29,6 +27,6 @@ app.use((err, req, res, next) => {
   res.end('Not found');
 });
 
-app.listen(app.get('port'), () => {
+app.listen(config.port,config.ipAddress, () => {
   logger.debug(`Application worker ${process.pid} started...`);
 });
